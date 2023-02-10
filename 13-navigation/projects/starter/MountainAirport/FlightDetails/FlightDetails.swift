@@ -34,7 +34,8 @@ import SwiftUI
 
 struct FlightDetails: View {
   var flight: FlightInformation
-
+  @EnvironmentObject var lastFlightInfo: FlightNavigationInfo
+    
   var body: some View {
     ZStack {
       Image("background-view")
@@ -55,6 +56,9 @@ struct FlightDetails: View {
       .padding()
       .navigationTitle("\(flight.airline) Flight \(flight.number)")
     }
+    .onAppear {
+      lastFlightInfo.lastFlightId = flight.id
+    }
   }
 }
 
@@ -63,7 +67,7 @@ struct FlightDetails_Previews: PreviewProvider {
     NavigationView {
       FlightDetails(
         flight: FlightData.generateTestFlight(date: Date())
-      )
+      ).environmentObject(FlightNavigationInfo())
     }
   }
 }
